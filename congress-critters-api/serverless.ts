@@ -48,6 +48,14 @@ const serverlessConfiguration: AWS = {
       platform: 'node',
       concurrency: 10,
     },
+    apiGatewayCustomizer: { //not sure if we want this
+      // Add your CORS configuration here
+      cors: {
+        origins: ['*'], // Set the allowed origins here
+        headers: ['Content-Type', 'Authorization'], // Set the allowed headers here
+        methods: ['OPTIONS', 'GET', 'POST', 'PUT', 'DELETE'], // Set the allowed methods here
+      },
+    }
   },
   resources: {
     Resources: {
