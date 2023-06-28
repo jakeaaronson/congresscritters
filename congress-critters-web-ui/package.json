@@ -29,6 +29,7 @@
     "typescript": "^4.9.0"
   },
   "dependencies": {
+    "clientjs": "^0.2.1",
     "http-proxy-middleware": "^2.0.6",
     "sirv-cli": "^2.0.0"
   }

@@ -5,16 +5,53 @@ Resources:
     Properties:
       Name: congresscritters.org.
 
+  WebCert:
+    Type: 'AWS::CertificateManager::Certificate'
+    Properties:
+      DomainName: www.congresscritters.org
+      ValidationMethod: DNS
+      DomainValidationOptions:
+        - DomainName: www.congresscritters.org
+          HostedZoneId: !Ref BaseHostedZone
+      SubjectAlternativeNames:
+        - congresscritters.org
+
+  WebDistribution:
+    Type: 'AWS::CloudFront::Distribution'
+    Properties:
+      DistributionConfig:
+        Aliases:
+          - www.congresscritters.org
+        DefaultRootObject: index.html
+        Origins:
+          - DomainName: congress-critters-web-ui-bucket.s3.amazonaws.com
+            Id: S3Origin
+            S3OriginConfig:
+              OriginAccessIdentity: ''
+        DefaultCacheBehavior:
+          AllowedMethods: ['GET', 'HEAD']
+          TargetOriginId: S3Origin
+          ViewerProtocolPolicy: redirect-to-https
+          Compress: true
+          ForwardedValues:
+            QueryString: false
+        ViewerCertificate:
+          AcmCertificateArn: !Ref WebCert
+          SslSupportMethod: sni-only
+        Enabled: true
+        HttpVersion: http2
+
   BaseRecordSetGroup:
     Type: 'AWS::Route53::RecordSetGroup'
     Properties:
       HostedZoneId: !Ref BaseHostedZone
       RecordSets:
-        - Name: www.congresscritters.org.
-          Type: CNAME
-          TTL: '60'
-          ResourceRecords:
-            - congress-critters-web-ui-bucket.s3.amazonaws.com
+        - Name: www.congresscritters.org
+          Type: A
+          AliasTarget:
+            HostedZoneId: !GetAtt WebDistribution.DomainName
+            DNSName: Z2FDTNDATAQYW2 # Fixed value for CloudFront
+          Comment: Website domain record
 
   APICert:
     Type: 'AWS::CertificateManager::Certificate'
@@ -48,4 +85,4 @@ Resources:
       AliasTarget:
         DNSName: orb9e3jc05.execute-api.us-east-1.amazonaws.com
         HostedZoneId: Z1UJRXOUMOOFQ8 # Fixed value for API Gateway
-      Comment: API dev domain recordcd 
+      Comment: API dev domain record

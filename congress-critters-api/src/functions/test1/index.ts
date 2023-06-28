@@ -7,8 +7,8 @@ export default {
     {
       http: {
         method: 'get',
-        path: 'test1'
-       
+        path: 'test1',
+        cors: {origin: '*'}     
       },
     },
   ],

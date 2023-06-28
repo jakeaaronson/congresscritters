@@ -1,5 +1,32 @@
 <script lang="ts">
 	import { callApi } from './use_hello_api';
+	import { ClientJS } from 'clientjs';
+	import Nested from './get_address.svelte';
+	import { onMount } from 'svelte';
+
+	onMount(async () => {
+
+		console.log('Hello World');
+
+
+
+	const client = new ClientJS();
+
+	// Get the client's fingerprint id
+	const fingerprintHash = client.getFingerprint();
+	console.log('fingerprintHash');
+	console.log(fingerprintHash);
+
+	const fingerprintData = client.getBrowserData();
+	console.log('fingerprintData');
+	console.log(fingerprintData);
+
+	const res = await fetch('https://orb9e3jc05.execute-api.us-east-1.amazonaws.com/dev/test1',);
+	const data = await res.json();
+	console.log(data);
+
+	});
+
 	export let name: string;
 	  let count = 0;
 
@@ -13,7 +40,7 @@
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 
 	<h3>Hello Svelte!</h3>
-
+	<Nested/><Nested/>
 <button on:click={handleClick}>
   Clicked {count} {count === 1 ? 'time' : 'times'}
 </button>

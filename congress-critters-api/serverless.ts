@@ -1,8 +1,5 @@
 import type { AWS } from '@serverless/typescript';
 
-//type MyEnvironment = 'dev' | 'prod';
-//const environment: MyEnvironment =  process.env.STAGE === 'prod' ? 'prod' : 'dev';
-
 import hello from '@functions/hello';
 import test1 from '@functions/test1';
 
@@ -22,20 +19,29 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
     },
-  },
-    /*iamRoleStatements: [
-    {
-      Effect: 'Allow',
-      Action: ['s3:*'],
-      Resource: [
-        `arn:aws:s3:::${environment}-transactional-log-congress-critters`,
-        `arn:aws:s3:::${environment}--transactional-log-congress-critters/*`,
-      ],
+    iam: {
+      role: {
+        statements: [
+          {
+            Effect: 'Allow',
+            Action: [
+              's3:ListBucket',
+              's3:GetObject',
+              's3:PutObject',
+              's3:DeleteObject',
+            ],
+            Resource: [
+              'arn:aws:s3:::${opt:stage, "dev"}-transactional-log-congress-critters',
+              'arn:aws:s3:::${opt:stage, "dev"}-transactional-log-congress-critters/*',
+            ],
+          },
+        ],
+      },
     },
-  ],*/
-  // import the function via paths
-  functions: { hello,test1 },
+  },
 
+  // import the function via paths
+  functions: { hello, test1 },
 
   package: { individually: true },
   custom: {
