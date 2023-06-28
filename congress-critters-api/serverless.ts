@@ -1,7 +1,7 @@
 import type { AWS } from '@serverless/typescript';
 
-type MyEnvironment = 'dev' | 'prod';
-const environment: MyEnvironment = process.env.STAGE === 'prod' ? 'prod' : 'dev';
+//type MyEnvironment = 'dev' | 'prod';
+//const environment: MyEnvironment =  process.env.STAGE === 'prod' ? 'prod' : 'dev';
 
 import hello from '@functions/hello';
 import test1 from '@functions/test1';
@@ -11,6 +11,7 @@ const serverlessConfiguration: AWS = {
   frameworkVersion: '3',
   plugins: ['serverless-esbuild'],
   provider: {
+    stage: '${opt:stage, "dev"}',
     name: 'aws',
     runtime: 'nodejs14.x',
     apiGateway: {
@@ -59,10 +60,10 @@ const serverlessConfiguration: AWS = {
   },
   resources: {
     Resources: {
-      TransactionalLogBucketDev: {
+      TransactionalLogBucket: {
         Type: 'AWS::S3::Bucket',
         Properties: {
-          BucketName: `${environment}-transactional-log-congress-critters`,
+          BucketName: '${opt:stage, "dev"}-transactional-log-congress-critters',
         },
       }
     }

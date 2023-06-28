@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  BaseHostedZone:
+    Type: 'AWS::Route53::HostedZone'
+    Properties:
+      Name: congresscritters.org.
+
+  BaseRecordSetGroup:
+    Type: 'AWS::Route53::RecordSetGroup'
+    Properties:
+      HostedZoneId: !Ref BaseHostedZone
+      RecordSets:
+        - Name: www.congresscritters.org.
+          Type: CNAME
+          TTL: '60'
+          ResourceRecords:
+            - congress-critters-web-ui-bucket.s3.amazonaws.com
+
+  APICert:
+    Type: 'AWS::CertificateManager::Certificate'
+    Properties:
+      DomainName: api.congresscritters.org
+      ValidationMethod: EMAIL
+
+  APIDevCert:
+    Type: 'AWS::CertificateManager::Certificate'
+    Properties:
+      DomainName: api-dev.congresscritters.org
+      ValidationMethod: EMAIL
+
+  APIRecordSet:
+    Type: 'AWS::Route53::RecordSet'
+    Properties:
+      HostedZoneId: !Ref BaseHostedZone
+      Name: api.congresscritters.org
+      Type: A
+      AliasTarget:
+        DNSName: 7wqzggw1za.execute-api.us-east-1.amazonaws.com
+        HostedZoneId: Z1UJRXOUMOOFQ8 # Fixed value for API Gateway
+      Comment: API domain record
+
+  APIDevRecordSet:
+    Type: 'AWS::Route53::RecordSet'
+    Properties:
+      HostedZoneId: !Ref BaseHostedZone
+      Name: api-dev.congresscritters.org
+      Type: A
+      AliasTarget:
+        DNSName: orb9e3jc05.execute-api.us-east-1.amazonaws.com
+        HostedZoneId: Z1UJRXOUMOOFQ8 # Fixed value for API Gateway
+      Comment: API dev domain recordcd 
