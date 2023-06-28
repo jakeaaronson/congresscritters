@@ -1,0 +1,23 @@
+service: congress-critters-web-ui
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+  stage: prod
+
+plugins:
+  - serverless-s3-sync
+  #- serverless-domain-manager
+
+custom:
+  #customDomain:
+  #  domainName: congresscritter.org
+  #  basePath: ' '
+  #  stage: ${self:provider.stage}
+  #  createRoute53Record: true
+  s3Sync:
+    - bucketName: congress-critters-web-ui-bucket
+      localDir: public
+
+
