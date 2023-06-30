@@ -10,7 +10,7 @@ const hello: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) =
 
   const fileContent =  `${Date.now()} we added some data`
   const bucketName = 'dev-transactional-log-congress-critters'; // replace with your bucket name
-  const key = `${Date.now()}.txt`; // generate a unique file name
+  const key = `hello-${Date.now()}.txt`; // generate a unique file name
 
  
     const params = {

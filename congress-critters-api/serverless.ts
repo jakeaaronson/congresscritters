@@ -2,6 +2,7 @@ import type { AWS } from '@serverless/typescript';
 
 import hello from '@functions/hello';
 import test1 from '@functions/test1';
+import test2 from '@functions/test2';
 
 const serverlessConfiguration: AWS = {
   service: 'congress-critters-api',
@@ -41,7 +42,7 @@ const serverlessConfiguration: AWS = {
   },
 
   // import the function via paths
-  functions: { hello, test1 },
+  functions: { hello, test1, test2 },
 
   package: { individually: true },
   custom: {

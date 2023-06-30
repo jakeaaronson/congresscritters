@@ -21,7 +21,7 @@
 	console.log('fingerprintData');
 	console.log(fingerprintData);
 
-	const res = await fetch('https://orb9e3jc05.execute-api.us-east-1.amazonaws.com/dev/test1',);
+	const res = await fetch('https://orb9e3jc05.execute-api.us-east-1.amazonaws.com/dev/test2',);
 	const data = await res.json();
 	console.log(data);
 
