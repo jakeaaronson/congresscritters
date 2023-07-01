@@ -1,0 +1,4 @@
+{
+    "domainName": "api.congresscritters.org",
+    "certificateArn": "arn:aws:acm:us-east-1:259821745971:certificate/360cc3d4-9ad2-4f5b-ac75-81b3518b45e8"
+  }

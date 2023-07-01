@@ -8,7 +8,7 @@ import test3 from '@functions/test3';
 const serverlessConfiguration: AWS = {
   service: 'congress-critters-api',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild'],
+  plugins: ['serverless-esbuild', 'serverless-domain-manager'], // Add the plugin
   provider: {
     stage: '${opt:stage, "dev"}',
     name: 'aws',
@@ -57,14 +57,16 @@ const serverlessConfiguration: AWS = {
       platform: 'node',
       concurrency: 10,
     },
-   /* apiGatewayCustomizer: { //not sure if we want this
-      // Add your CORS configuration here
-      cors: {
-        origins: ['*'], // Set the allowed origins here
-        headers: ['Content-Type', 'Authorization'], // Set the allowed headers here
-        methods: ['OPTIONS', 'GET', 'POST', 'PUT', 'DELETE'], // Set the allowed methods here
-      },
-    }*/
+    customDomain: {
+      domainName: '${file(${self:provider.stage}.config.json):domainName}',
+      stage: '${self:provider.stage, "dev"}',
+      createRoute53Record: true,
+      endpointType: 'regional',
+      securityPolicy: 'tls_1_2',
+      certificateName: '${file(${self:provider.stage}.config.json):domainName}',
+      basePath: '',
+      certificateArn: '${file(${self:provider.stage}.config.json):certificateArn}',
+    },
   },
   resources: {
     Resources: {
