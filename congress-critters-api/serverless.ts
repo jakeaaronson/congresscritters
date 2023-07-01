@@ -3,6 +3,7 @@ import type { AWS } from '@serverless/typescript';
 import hello from '@functions/hello';
 import test1 from '@functions/test1';
 import test2 from '@functions/test2';
+import test3 from '@functions/test3';
 
 const serverlessConfiguration: AWS = {
   service: 'congress-critters-api',
@@ -42,7 +43,7 @@ const serverlessConfiguration: AWS = {
   },
 
   // import the function via paths
-  functions: { hello, test1, test2 },
+  functions: { hello, test1, test2, test3 },
 
   package: { individually: true },
   custom: {
@@ -56,14 +57,14 @@ const serverlessConfiguration: AWS = {
       platform: 'node',
       concurrency: 10,
     },
-    apiGatewayCustomizer: { //not sure if we want this
+   /* apiGatewayCustomizer: { //not sure if we want this
       // Add your CORS configuration here
       cors: {
         origins: ['*'], // Set the allowed origins here
         headers: ['Content-Type', 'Authorization'], // Set the allowed headers here
         methods: ['OPTIONS', 'GET', 'POST', 'PUT', 'DELETE'], // Set the allowed methods here
       },
-    }
+    }*/
   },
   resources: {
     Resources: {
